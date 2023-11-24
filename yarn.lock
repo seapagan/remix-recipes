@@ -2370,6 +2370,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"classnames@npm:^2.3.2":
+  version: 2.3.2
+  resolution: "classnames@npm:2.3.2"
+  checksum: cd50ead57b4f97436aaa9f9885c6926323efc7c2bea8e3d4eb10e4e972aa6a1cfca1c7a0e06f8a199ca7498d4339e30bb6002e589e61c9f21248cbf3e8b0b18d
+  languageName: node
+  linkType: hard
+
 "clean-stack@npm:^2.0.0":
   version: 2.2.0
   resolution: "clean-stack@npm:2.2.0"
@@ -7060,6 +7067,7 @@ __metadata:
     "@remix-run/v1-route-convention": "npm:^0.1.4"
     "@types/react": "npm:^18.2.20"
     "@types/react-dom": "npm:^18.2.7"
+    classnames: "npm:^2.3.2"
     eslint: "npm:^8.38.0"
     isbot: "npm:^3.6.8"
     react: "npm:^18.2.0"
