@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/node";
 import {
   Link,
   Links,
@@ -9,16 +9,12 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-import styles from "~/shared.css";
-
 export const meta: MetaFunction = () => {
   return [
     { title: "Remix Recipes" },
     { name: "description", content: "Welcome to the Remix Recipes App" },
   ];
 };
-
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
 export default function App() {
   return (
