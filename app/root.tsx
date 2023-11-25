@@ -7,6 +7,9 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useNavigation,
+  useResolvedPath,
+  useMatches,
 } from "@remix-run/react";
 
 import styles from "./tailwind.css";
@@ -17,6 +20,7 @@ import {
   SettingsIcon,
 } from "./components/icons";
 import classNames from "classnames";
+import React from "react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -30,6 +34,12 @@ export const links: LinksFunction = () => {
 };
 
 export default function App() {
+  const matches = useMatches();
+
+  React.useEffect(() => {
+    console.log(matches);
+  }, [matches]);
+
   return (
     <html lang="en">
       <head>
@@ -80,6 +90,13 @@ type AppNavLinkProps = {
 };
 
 const AppNavLink = ({ to, children }: AppNavLinkProps) => {
+  const path = useResolvedPath(to);
+  const navigation = useNavigation();
+
+  const isLoading =
+    navigation.state === "loading" &&
+    navigation.location.pathname === path.pathname;
+
   return (
     <li className="w-16">
       <NavLink to={to}>
@@ -87,9 +104,8 @@ const AppNavLink = ({ to, children }: AppNavLinkProps) => {
           <div
             className={classNames(
               "py-4 flex justify-center hover:bg-primary-light",
-              {
-                "bg-primary-light": isActive,
-              }
+              isActive ? "bg-primary-light" : "",
+              isLoading ? "animate-pulse bg-primary-light" : ""
             )}
           >
             {children}
