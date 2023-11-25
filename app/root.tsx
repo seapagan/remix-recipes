@@ -62,7 +62,7 @@ export default function App() {
               </AppNavLink>
             </li>
             <li>
-              <AppNavLink to="app">
+              <AppNavLink to="app/pantry">
                 <RecipeBookIcon />
               </AppNavLink>
             </li>
@@ -73,7 +73,7 @@ export default function App() {
             </li>
           </ul>
         </nav>
-        <div className="p-4">
+        <div className="p-4 w-full">
           <Outlet />
         </div>
         <ScrollRestoration />
