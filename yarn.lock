@@ -1074,6 +1074,34 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prisma/client@npm:^5.6.0":
+  version: 5.6.0
+  resolution: "@prisma/client@npm:5.6.0"
+  dependencies:
+    "@prisma/engines-version": "npm:5.6.0-32.e95e739751f42d8ca026f6b910f5a2dc5adeaeee"
+  peerDependencies:
+    prisma: "*"
+  peerDependenciesMeta:
+    prisma:
+      optional: true
+  checksum: 21f5840833dbd88cf60d6d3585faab192481a8caf16a6ee2cba8ec8720d8995bc0eee13d66e3bbe31b6f3809c832fd95cf2d2993aaa2dc1ca354e37685852aef
+  languageName: node
+  linkType: hard
+
+"@prisma/engines-version@npm:5.6.0-32.e95e739751f42d8ca026f6b910f5a2dc5adeaeee":
+  version: 5.6.0-32.e95e739751f42d8ca026f6b910f5a2dc5adeaeee
+  resolution: "@prisma/engines-version@npm:5.6.0-32.e95e739751f42d8ca026f6b910f5a2dc5adeaeee"
+  checksum: 06a0e9126213cb881ef15e6d13b2ba29be1d31c65aca6bf070b5182ce82a04de3b93b721549a27be3ddb551e003aa94fa0ca61b78736d5bd3579b9114ba96b49
+  languageName: node
+  linkType: hard
+
+"@prisma/engines@npm:5.6.0":
+  version: 5.6.0
+  resolution: "@prisma/engines@npm:5.6.0"
+  checksum: 587cf254da9628ddfd21a8f519b841c5c7713f2e3208e65cae3ec0ef812a67a001bee4ffe19d8ba71a867419a3f8540b64d7998c63696b951270397732d08886
+  languageName: node
+  linkType: hard
+
 "@remix-run/css-bundle@npm:^2.3.1":
   version: 2.3.1
   resolution: "@remix-run/css-bundle@npm:2.3.1"
@@ -6716,6 +6744,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prisma@npm:^5.6.0":
+  version: 5.6.0
+  resolution: "prisma@npm:5.6.0"
+  dependencies:
+    "@prisma/engines": "npm:5.6.0"
+  bin:
+    prisma: build/index.js
+  checksum: 8d8069295cf7402f6eb103fa1d5c511c1006fc78057fa180e9b0688076703b33301ce6b04a30575d8b01f0bbe9a26b3c196d0bc4f9253eca9ee780e0800ce602
+  languageName: node
+  linkType: hard
+
 "proc-log@npm:^3.0.0":
   version: 3.0.0
   resolution: "proc-log@npm:3.0.0"
@@ -7058,6 +7097,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "remix-recipes@workspace:."
   dependencies:
+    "@prisma/client": "npm:^5.6.0"
     "@remix-run/css-bundle": "npm:^2.3.1"
     "@remix-run/dev": "npm:^2.3.1"
     "@remix-run/eslint-config": "npm:^2.3.1"
@@ -7070,6 +7110,7 @@ __metadata:
     classnames: "npm:^2.3.2"
     eslint: "npm:^8.38.0"
     isbot: "npm:^3.6.8"
+    prisma: "npm:^5.6.0"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     tailwindcss: "npm:^3.3.5"
