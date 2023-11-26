@@ -47,3 +47,14 @@ export const deleteShelf = async (shelfId: string) => {
     throw error;
   }
 };
+
+export const saveShelfName = (shelfId: string, shelfName: string) => {
+  return db.pantryShelf.update({
+    where: {
+      id: shelfId,
+    },
+    data: {
+      name: shelfName,
+    },
+  });
+};
