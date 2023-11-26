@@ -1,8 +1,19 @@
-import { type LoaderFunctionArgs, json } from "@remix-run/node";
-import { useLoaderData, useSearchParams } from "@remix-run/react";
+import {
+  type LoaderFunctionArgs,
+  json,
+  type ActionFunction,
+} from "@remix-run/node";
+import {
+  Form,
+  useLoaderData,
+  useSearchParams,
+  useNavigation,
+} from "@remix-run/react";
 import classNames from "classnames";
-import { SearchIcon } from "~/components/icons";
-import { getAllShelves } from "~/models/pantry-shelf.server";
+import React from "react";
+import { PrimaryButton } from "~/components/forms";
+import { PlusIcon, SearchIcon } from "~/components/icons";
+import { createShelf, getAllShelves } from "~/models/pantry-shelf.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
@@ -10,16 +21,33 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const shelves = await getAllShelves(q);
   return json({ shelves });
 };
+
+export const action: ActionFunction = async () => {
+  return createShelf();
+};
+
 export const Pantry = () => {
   const data = useLoaderData<typeof loader>();
   const [searchParams] = useSearchParams();
+  const navigation = useNavigation();
+  const containerRef = React.useRef<HTMLUListElement>(null);
+
+  const isSearching = navigation.formData?.has("q");
+  const isCreatingShelf = navigation.formData?.has("createShelf");
+
+  React.useEffect(() => {
+    if (!isCreatingShelf && containerRef.current) {
+      containerRef.current.scrollLeft = 0;
+    }
+  }, [isCreatingShelf]);
 
   return (
     <div>
-      <form
+      <Form
         className={classNames(
           "flex border-2 borger-gray-300 rounded-md",
-          "focus-within:border-primary md:w-80"
+          "focus-within:border-primary md:w-80",
+          isSearching ? "animate-pulse" : ""
         )}
       >
         <button className="px-2 mr-1">
@@ -32,12 +60,27 @@ export const Pantry = () => {
           autoComplete="off"
           placeholder="Search Shelves..."
           id=""
-          className="w-full py-3 px-2 outline-none"
+          className="w-5/6 py-3 px-2 outline-none"
         />
-      </form>
+      </Form>
+      <Form method="POST">
+        <PrimaryButton
+          name="createShelf"
+          className={classNames(
+            "mt-4 w-full md:w-fit",
+            isCreatingShelf ? "bg-primary-light" : ""
+          )}
+        >
+          <PlusIcon />
+          <span className="pl-2">
+            {isCreatingShelf ? "Creating Shelf" : "Create Shelf"}
+          </span>
+        </PrimaryButton>
+      </Form>
       <ul
+        ref={containerRef}
         className={classNames(
-          "flex gap-8 overflow-x-auto mt-4",
+          "flex gap-8 overflow-x-auto mt-4 pb-4",
           "snap-x snap-mandatory md:snap-none"
         )}
       >

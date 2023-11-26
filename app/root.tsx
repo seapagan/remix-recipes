@@ -9,7 +9,6 @@ import {
   ScrollRestoration,
   useNavigation,
   useResolvedPath,
-  useMatches,
 } from "@remix-run/react";
 
 import styles from "./tailwind.css";
@@ -34,12 +33,6 @@ export const links: LinksFunction = () => {
 };
 
 export default function App() {
-  const matches = useMatches();
-
-  React.useEffect(() => {
-    console.log(matches);
-  }, [matches]);
-
   return (
     <html lang="en">
       <head>
@@ -73,7 +66,7 @@ export default function App() {
             </li>
           </ul>
         </nav>
-        <div className="p-4 w-full">
+        <div className="p-4 w-full md:w-[calc(100%-4rem)]">
           <Outlet />
         </div>
         <ScrollRestoration />
@@ -95,7 +88,10 @@ const AppNavLink = ({ to, children }: AppNavLinkProps) => {
 
   const isLoading =
     navigation.state === "loading" &&
-    navigation.location.pathname === path.pathname;
+    navigation.location.pathname === path.pathname &&
+    navigation.formMethod === undefined;
+
+  console.log("Navigation:", navigation);
 
   return (
     <li className="w-16">
