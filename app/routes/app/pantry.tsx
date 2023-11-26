@@ -8,6 +8,7 @@ import {
   useLoaderData,
   useSearchParams,
   useNavigation,
+  useFetcher,
 } from "@remix-run/react";
 import classNames from "classnames";
 import React from "react";
@@ -48,14 +49,16 @@ export const action: ActionFunction = async ({ request }) => {
   }
 };
 
-export const Pantry = () => {
+const Pantry = () => {
   const data = useLoaderData<typeof loader>();
   const [searchParams] = useSearchParams();
+  const createShelfFetcher = useFetcher();
   const navigation = useNavigation();
   const containerRef = React.useRef<HTMLUListElement>(null);
 
   const isSearching = navigation.formData?.has("q");
-  const isCreatingShelf = navigation.formData?.get("_action") === "createShelf";
+  const isCreatingShelf =
+    createShelfFetcher.formData?.get("_action") === "createShelf";
 
   React.useEffect(() => {
     if (!isCreatingShelf && containerRef.current) {
@@ -85,7 +88,7 @@ export const Pantry = () => {
           className="w-5/6 py-3 px-2 outline-none"
         />
       </Form>
-      <Form method="POST">
+      <createShelfFetcher.Form method="POST">
         <PrimaryButton
           name="_action"
           value="createShelf"
@@ -97,7 +100,7 @@ export const Pantry = () => {
             {isCreatingShelf ? "Creating Shelf" : "Create Shelf"}
           </span>
         </PrimaryButton>
-      </Form>
+      </createShelfFetcher.Form>
       <ul
         ref={containerRef}
         className={classNames(
@@ -105,44 +108,60 @@ export const Pantry = () => {
           "snap-x snap-mandatory md:snap-none"
         )}
       >
-        {data.shelves.map((shelf) => {
-          const isDeletingShelf =
-            navigation.formData?.get("_action") === "deleteShelf" &&
-            navigation.formData?.get("shelfId") === shelf.id;
-
-          return (
-            <li
-              key={shelf.id}
-              className={classNames(
-                "border-2 border-primary rounded-md p-4",
-                "w-[calc(100vw-2rem)] flex-none snap-center h-fit",
-                "md:w-96"
-              )}
-            >
-              <h1 className="text-2xl font-extrabold mb-2">{shelf.name}</h1>
-              <ul>
-                {shelf.items.map((item) => (
-                  <li key={item.id} className="py-2">
-                    {item.name}
-                  </li>
-                ))}
-              </ul>
-              <Form method="POST" className="pt-8">
-                <input type="hidden" name="shelfId" value={shelf.id} />
-                <DeleteButton
-                  className="w-full"
-                  name="_action"
-                  value="deleteShelf"
-                  isLoading={isDeletingShelf}
-                >
-                  {isDeletingShelf ? "Deleting Shelf" : "Delete Shelf"}
-                </DeleteButton>
-              </Form>
-            </li>
-          );
-        })}
+        {data.shelves.map((shelf) => (
+          <Shelf key={shelf.id} shelf={shelf} />
+        ))}
       </ul>
     </div>
+  );
+};
+
+type ShelfProps = {
+  shelf: {
+    id: string;
+    name: string;
+    items: {
+      id: string;
+      name: string;
+    }[];
+  };
+};
+
+const Shelf = ({ shelf }: ShelfProps) => {
+  const deleteShelfFetcher = useFetcher();
+  const isDeletingShelf =
+    deleteShelfFetcher.formData?.get("_action") === "deleteShelf" &&
+    deleteShelfFetcher.formData?.get("shelfId") === shelf.id;
+
+  return (
+    <li
+      key={shelf.id}
+      className={classNames(
+        "border-2 border-primary rounded-md p-4",
+        "w-[calc(100vw-2rem)] flex-none snap-center h-fit",
+        "md:w-96"
+      )}
+    >
+      <h1 className="text-2xl font-extrabold mb-2">{shelf.name}</h1>
+      <ul>
+        {shelf.items.map((item) => (
+          <li key={item.id} className="py-2">
+            {item.name}
+          </li>
+        ))}
+      </ul>
+      <deleteShelfFetcher.Form method="POST" className="pt-8">
+        <input type="hidden" name="shelfId" value={shelf.id} />
+        <DeleteButton
+          className="w-full"
+          name="_action"
+          value="deleteShelf"
+          isLoading={isDeletingShelf}
+        >
+          {isDeletingShelf ? "Deleting Shelf" : "Delete Shelf"}
+        </DeleteButton>
+      </deleteShelfFetcher.Form>
+    </li>
   );
 };
 

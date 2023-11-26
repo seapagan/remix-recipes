@@ -93,8 +93,6 @@ const AppNavLink = ({ to, children }: AppNavLinkProps) => {
     navigation.location.pathname === path.pathname &&
     navigation.formMethod === undefined;
 
-  console.log("Navigation:", navigation);
-
   return (
     <li className="w-16">
       <NavLink to={to}>
