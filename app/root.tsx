@@ -9,6 +9,8 @@ import {
   ScrollRestoration,
   useNavigation,
   useResolvedPath,
+  useRouteError,
+  Link,
 } from "@remix-run/react";
 
 import styles from "./tailwind.css";
@@ -109,5 +111,33 @@ const AppNavLink = ({ to, children }: AppNavLinkProps) => {
         )}
       </NavLink>
     </li>
+  );
+};
+
+export const ErrorBoundary = () => {
+  const error = useRouteError();
+
+  return (
+    <html>
+      <head>
+        <title>Whoops!</title>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <div className="p-4">
+          <h1 className="text-2xl pb-3">Whoops!</h1>
+          <p>You're seeing this page because an unexpected error occured.</p>
+          {error instanceof Error ? (
+            <p className=" my-4 font-bold text-red-600">{error.message}</p>
+          ) : null}
+          <Link to="/" className="text-primary">
+            Go Home
+          </Link>
+        </div>
+      </body>
+    </html>
   );
 };
