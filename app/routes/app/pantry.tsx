@@ -151,7 +151,7 @@ const Shelf = ({ shelf }: ShelfProps) => {
     deleteShelfFetcher.formData?.get("_action") === "deleteShelf" &&
     deleteShelfFetcher.formData?.get("shelfId") === shelf.id;
 
-  return (
+  return isDeletingShelf ? null : (
     <li
       key={shelf.id}
       className={classNames(
@@ -194,13 +194,8 @@ const Shelf = ({ shelf }: ShelfProps) => {
       </ul>
       <deleteShelfFetcher.Form method="POST" className="pt-8">
         <input type="hidden" name="shelfId" value={shelf.id} />
-        <DeleteButton
-          className="w-full"
-          name="_action"
-          value="deleteShelf"
-          isLoading={isDeletingShelf}
-        >
-          {isDeletingShelf ? "Deleting Shelf" : "Delete Shelf"}
+        <DeleteButton className="w-full" name="_action" value="deleteShelf">
+          Delete Shelf
         </DeleteButton>
       </deleteShelfFetcher.Form>
     </li>
